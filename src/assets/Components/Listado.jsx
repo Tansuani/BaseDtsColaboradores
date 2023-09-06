@@ -1,14 +1,32 @@
+
 import { Table } from 'react-bootstrap';
 
-const Listado = () => {
+const Listado = ({data}) => {
+
+const colaboradores = data.map((colaborador) => (
+  <tr key={colaborador.id}>
+    <td>{colaborador.id}</td>    
+    <td>{colaborador.nombre}</td>
+    <td>{colaborador.correo}</td>
+    <td>{colaborador.edad}</td>
+    <td>{colaborador.cargo}</td>
+    <td>{colaborador.telefono}</td>    
+    <td>       
+      {/*boton eliminar agregar funcionalidad onclick*/}
+    </td>
+  </tr>
+
+));
+
+
   return (
     <div className='tabla'>
-      <Table 
+      <Table
         variant="dark"
         className="table table-striped">
         <thead>
           <tr>
-            <th scope="col">#</th>
+            <th scope="col">id</th>
             <th scope="col">Nombre</th>
             <th scope="col">Correo</th>
             <th scope="col">Edad</th>
@@ -17,7 +35,7 @@ const Listado = () => {
             <th scope="col">Borrar</th>
           </tr>
         </thead>
-        <tbody> </tbody>
+        <tbody>{colaboradores} </tbody>
       </Table>
     </div>
   )

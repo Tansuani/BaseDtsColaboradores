@@ -26,10 +26,20 @@ body{
   align-items: start;
 }
 
+.tabla{
+  background-color: rgb(47, 206, 255);
+  border-radius: 5px;
+}
+
 .planilla{
   display: flex;
   flex-direction: column;
   align-content: center;
   justify-content: space-around;
   align-items: end;
+}
+
+.third{
+  color: white;
+  font-weight: 800;
 }

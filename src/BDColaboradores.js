@@ -1,4 +1,4 @@
-export const BColaboradores = [
+export const BDColaboradores = [
     {
         id: "1",
         nombre: "Juan Soto",
