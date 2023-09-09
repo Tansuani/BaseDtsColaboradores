@@ -1,126 +1,130 @@
+import { useState } from "react"
+import Alert from "./Alert";
 
-import {useState} from 'react';
 
-const Formulario = ({data, setData, dataBuscador, setDataBuscador,addAlert}) => {
-  const[datosColaborador, setDatosColaborador] = useState({
-    nombre:'',
-    correo:'',
-    edad:'',
-    cargo:'',
-    telefono:'',
-  });
-  
-  const handleInputs = (e) => {
+const Formulario = ({ datos, setDatosB, dataFiltro, setDataFiltro, alert, setAlert }) => {
+  const [formularioData, setFormularioData] = useState({
+    nombre: '',
+    correo: '',
+    edad: '',
+    cargo: '',
+    telefono: ''
+    })
 
-    const inputsId={
-      InputName:"nombre",
-      InputEmail:"correo",
-      InputEdad:"edad",
-      InputCargo:"cargo",
-      InputPhone:"telefono",      
-    };
+  const validarFormulario = (e) => {
+    e.preventDefault();
 
-    const prop = inputsId[e.target.id]
-    if(prop){
-      setDatosColaborador({...datosColaborador, [prop]: e.target.value});
+    const { nombre, correo, edad, cargo, telefono } = formularioData;
+    const validarInput = !nombre || !correo || !edad || !cargo || !telefono;
+    const formatoEmail = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/
+    const validarEmail = !formatoEmail.test(correo)
+
+      if (validarInput) {
+
+        setAlert({
+          error: true,
+          msg: 'Complete los campos',
+          color: 'danger',
+        })
+
+        return
+        }
+
+        else {
+          setAlert({
+            error: false,
+            msg: 'Colaborador agregado exitosamente',
+            color: 'success',
+          });
+        }
+
+        if (validarEmail) {
+          setAlert({
+            error: true,
+            msg: 'email incorrecto',
+            color: 'danger'
+          })
+          
+          return
+        }
+
+        setDatosB([...datos, { ...formularioData, id: 8 }])
+        setDataFiltro([...dataFiltro, { ...formularioData, id: 8 }])
+
+        setFormularioData({
+            nombre: '',
+            correo: '',
+            edad: '',
+            cargo: '',
+            telefono: ''
+
+        });
     }
 
-  };
-
-  const validarDatos = (e) => {
-    e.preventDefault()
-    const regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4}$/;
-    
-    const regexTelef = /^[0-9]{9}$/;
-    if (
-      datosColaborador.nombre.trim() === '' ||
-      datosColaborador.correo === '' ||
-      datosColaborador.edad === '' ||
-      datosColaborador.cargo.trim() === '' ||
-      datosColaborador.telefono === ''
-    ){
-      addAlert({
-
-      })
-    } else if(!regexEmail.test(datosColaborador.correo)){
-      addAlert({})
+    const handlerChange = (e) => {
+        setFormularioData({
+            ...formularioData, [e.target.name]: e.target.value
+        })
     }
-  
-  //setData
 
-  //setDataFilter
-
-  //setDataColaborador
-
-
-  };
-
-  
   return (
-    <div>
-      <form className="planilla"
-      onSubmit={(e) => validarDatos(e)}
-      >
-        <div className="form-group">
-          <label for="exampleInputName">Nombre:</label>
-          <input
-            type="text"
-            className="form-control"
-            id="InputName"
-            placeholder="Inscriba el nombre"
-            onChange={(e) => handleInputs(e)}
-            value={datosColaborador.nombre}
+    <>
+      <div id="contenedor">
+        <div id="central">
+          <div id="login">
+            <div className="titulo">
+              AGREGAR NUEVO COLABORADOR
+            </div>
+          <form
+            id="loginform"
+            onSubmit={validarFormulario}>
+            <input
+              type="text"
+              name="nombre"
+              placeholder="Nombre"
+              onChange={handlerChange}
+              value={formularioData.nombre} 
             />
-        </div>
-        <div className="form-group">
-          <label for="exampleInputEmail">Correo:</label>
-          <input
-            type="email"
-            className="form-control"
-            id="InputEmail"
-            aria-describedby="emailHelp"
-            placeholder="Inscriba el correo"
-            onChange={(e) => handleInputs(e)}
-            value={datosColaborador.correo}
+            <input
+              type="email"
+              name="correo"
+              placeholder="Email"
+              onChange={handlerChange}
+              value={formularioData.correo} 
             />
-        </div>
-        <div className="form-group">
-          <label for="exampleInputEdad">Edad:</label>
-          <input
-            type="number"
-            className="form-control"
-            id="InputEdad"
-            placeholder="Inscriba la edad"
-            onChange={(e) => handleInputs(e)}
-            value={datosColaborador.edad}
+            <input
+              type="text"
+              name="edad"
+              placeholder="Edad"
+              onChange={handlerChange}
+              value={formularioData.edad} 
             />
-        </div>
-        <div className="form-group">
-          <label for="exampleInputCargo">Cargo:</label>
-          <input
-            type="text"
-            className="form-control"
-            id="InputCargo"
-            placeholder="Inscriba el cargo"
-            onChange={(e) => handleInputs(e)}
-            value={datosColaborador.cargo}
+            <input
+              type="text"
+              name="cargo"
+              placeholder="Cargo"
+              onChange={handlerChange}
+              value={formularioData.cargo} 
             />
-        </div>
-        <div className="form-group">
-          <label for="exampleInputPhone">Celular:</label>
-          <input
-            type="number"
-            className="form-control"
-            id="InputPhone"
-            placeholder="Digite el N. celular"
-            onChange={(e) => handleInputs(e)}
-            value={datosColaborador.telefono}
+            <input
+              type="text"
+              name="telefono"
+              placeholder="Telefono"
+              onChange={handlerChange}
+              value={formularioData.telefono} 
             />
+            <button
+              type="submit"
+              name="Ingresar">
+              Ingresar
+            </button>
+          </form>
+          {alert.msg && <Alert color={alert.color} messagge={alert.msg} ></Alert>}
+          </div>
         </div>
-        <button type="submit" className="btn btn-primary">Sumar Colaborador</button>
-      </form>
-    </div>
-  )
+      </div>
+    </>
+    )
 }
 
 export default Formulario

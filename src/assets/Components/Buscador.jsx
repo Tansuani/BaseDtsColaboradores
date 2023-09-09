@@ -1,38 +1,33 @@
 
-const Buscador = ({data, dataBuscador}) => {
+const Buscador = ({ datos, datafiltro }) => {
 
-  const inputTexto = (e) => {
-    const tomaTexto = e.target.value.toLowerCase();
-    const respuesta = data.buscador ((colaborador) => 
-    colaborador.nombre.toLowerCase().includes(tomaTexto) ||
-    colaborador.correo.toLowerCase().includes(tomaTexto) ||
-    colaborador.edad.toLowerCase().includes(tomaTexto) ||
-    colaborador.cargo.toLowerCase().includes(tomaTexto) ||
-    colaborador.telefono.toLowerCase().includes(tomaTexto)
-    );
-    dataBuscador(respuesta);
-  };
 
+  const inputHandler = (e) => {
+      e.preventDefault();
+      const buscarPalabra = e.target.value.toLowerCase();
+      console.log('dataB',datos)
+      const resultado = datos.filter((colaborador) =>
+          
+          colaborador.nombre.toLowerCase().includes(buscarPalabra) || 
+          colaborador.correo.toLowerCase().includes(buscarPalabra) || 
+          colaborador.edad.includes(buscarPalabra) || 
+          colaborador.cargo.toLowerCase().includes(buscarPalabra) || 
+          colaborador.telefono.includes(buscarPalabra)
+          
+      )
+
+      datafiltro(resultado)
+  }
 
 
   return (
-    <>
-      <nav className="navbar navbar-light bg-light">
-        <form className="form-inline">
-          <input
-            className="form-control mr-sm-2"
-            type="text"
-            placeholder="Buscar colaborador"
-            aria-label="Search"
-            onChange={inputTexto}
-          />{/*}
-          <button 
-            class="btn btn-outline-success my-2 my-sm-0" 
-            type="submit">Buscar</button>*/}
-        </form>
-      </nav>
-    </>
+      <input
+          className="form-control"
+          type="text"
+          placeholder="Buscador"
+          onChange={inputHandler}>
+      </input>
   )
-}
+};
 
 export default Buscador
